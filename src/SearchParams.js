@@ -2,18 +2,19 @@ import { useState, useEffect } from "react";
 import Results from "./Results";
 import useBreedList from "./useBreedList";
 import { useSelector, useDispatch } from "react-redux";
-import changeAnimal from "./actionCreators/changeAnimal";
 import changeLocation from "./actionCreators/changeLocation";
-import changeBreed from "./actionCreators/changeBreed";
 import changeTheme from "./actionCreators/changeTheme";
+import changeAnimal from "./actionCreators/changeAnimal";
+import changeBreed from "./actionCreators/changeBreed";
 
 const ANIMALS = ["bird", "cat", "dog", "rabbit", "reptile"];
 
 const SearchParams = () => {
-  const animal = useSelector(state => state.animal);
-  const location = useSelector(state => state.location);
-  const breed = useSelector(state => state.breed);
-  const theme = useSelector(state => state.theme);
+  const animal = useSelector((state) => state.animal);
+  const location = useSelector((state) => state.location);
+  const breed = useSelector((state) => state.breed);
+  const theme = useSelector((state) => state.theme);
+
   const dispatch = useDispatch();
 
   const [pets, setPets] = useState([]);
@@ -25,7 +26,7 @@ const SearchParams = () => {
 
   async function requestPets() {
     const res = await fetch(
-      `https://pets-v2.dev-apis.com/pets?animal=${animal}&location=${location}&breed=${breed}`
+      `http://pets-v2.dev-apis.com/pets?animal=${animal}&location=${location}&breed=${breed}`
     );
     const json = await res.json();
 
@@ -54,14 +55,8 @@ const SearchParams = () => {
           <select
             id="animal"
             value={animal}
-            onChange={(e) => {
-              dispatch(changeAnimal(e.target.value));
-              dispatch(changeBreed(""));
-            }}
-            onBlur={(e) => {
-              dispatch(changeAnimal(e.target.value));
-              dispatch(changeBreed(""));
-            }}
+            onChange={(e) => dispatch(changeAnimal(e.target.value))}
+            onBlur={(e) => dispatch(changeAnimal(e.target.value))}
           >
             <option />
             {ANIMALS.map((animal) => (
